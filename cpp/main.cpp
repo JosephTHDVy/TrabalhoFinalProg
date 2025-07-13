@@ -13,7 +13,13 @@ void criaMapa(string mapa[N][N]){
     
     srand(time(NULL));
         for (int gravetos = 0; gravetos < 16; gravetos++){
-            if()
+            int randomX = random()%10;
+            int randomY = random()%10;
+            if (mapa[randomY][randomX] == ""){
+                mapa[randomY][randomX] = G
+            } else {
+                gravetos--;
+            }
         }
     }
 
