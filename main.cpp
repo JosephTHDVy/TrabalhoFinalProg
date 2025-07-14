@@ -70,16 +70,62 @@ void exibeMapa(string mapa[N][N]){
     }
 }
 
+void movePlayer(string mapa[N][N], int playerX, int playerY, string &itemAnterior, int inventario[]) {
+    string move;
+    cin >> move;
+
+    mapa[playerY][playerX] = itemAnterior;
+
+    if (move == "w" && playerY > 0) {
+        playerY--;
+    } else if (move == "s" && playerY < N-1) {
+        playerY++;
+    } else if (move == "a" && playerX > 0) {
+        playerX--;
+    } else if (move == "d" && playerX < N-1) {
+        playerX++;
+    }
+    else {
+        cout << "Movimento invalido!" << endl;
+    }
+
+    if (mapa[playerY][playerX] != "+") {
+        cout << "deseja pegar o item? (s/n): ";
+        string resposta;
+        cin >> resposta;
+        if (resposta == "s") {
+            cout << "Item coletado: " << mapa[playerY][playerX] << endl;
+            if (mapa[playerY][playerX] == "G") {
+                inventario[1]++;
+            } else if (mapa[playerY][playerX] == "P") {
+                inventario[2]++;
+            } else if (mapa[playerY][playerX] == "a") {
+                inventario[3]++;
+            } else if (mapa[playerY][playerX] == "b") {
+                inventario[4]++;
+            }
+        }
+    }
+
+    itemAnterior = mapa[playerY][playerX];
+    
+    mapa[playerY][playerX] = "<";
+}
+
 int main() {
 
-    int fim;
-
+    bool fim = false;
+    int playerX = N/2, playerY = N/2;
+    int inventario[5] = {0, 0, 0, 0, 0}; 
     string mapa[N][N];
 
     criaMapa(mapa);
+    string itemAnterior = mapa[N/2][N/2];
+    mapa[playerY][playerX] = "<"; 
 
-    exibeMapa(mapa);
-    
-    cin >> fim;
+    while (fim == false) {
+        exibeMapa(mapa);
+        movePlayer(mapa, playerX, playerY, itemAnterior, inventario); 
+    }
     return 0;
 }
